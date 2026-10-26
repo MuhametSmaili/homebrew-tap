@@ -1,0 +1,51 @@
+name: Hetki formula
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - Formula/hetki.rb
+      - .github/workflows/hetki.yml
+  push:
+    branches:
+      - main
+    paths:
+      - Formula/hetki.rb
+      - .github/workflows/hetki.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hetki-formula-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+    steps:
+      - name: Set up Homebrew and check out the tap
+        uses: Homebrew/actions/setup-homebrew@d482da0e602890d3160aade42e72c8556103bf04 # 2026.10.26.1
+        with:
+          stable: true
+
+      - name: Check formula style
+        run: brew style MuhametSmaili/tap/hetki
+
+      - name: Build and install the release formula
+        run: brew install --build-from-source MuhametSmaili/tap/hetki
+
+      - name: Test the installed formula
+        run: brew test MuhametSmaili/tap/hetki
+
+      - name: Audit the formula
+        run: brew audit --strict --online MuhametSmaili/tap/hetki
