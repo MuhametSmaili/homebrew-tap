@@ -1,8 +1,8 @@
 class Hetki < Formula
   desc "Navigate tmux sessions and save reusable workspaces"
   homepage "https://github.com/MuhametSmaili/hetki"
-  url "https://github.com/MuhametSmaili/hetki/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "caf39525a483d0d49865d85cb470ce70a724637829f4071c7137c9c98ee93f9d"
+  url "https://github.com/MuhametSmaili/hetki/archive/refs/tags/v0.7.0.tar.gz"
+  sha256 "b33687854f0e3bf4d6095c3c8939d5a9ee4e3684db6f8e239ae755072a7f8bf6"
   license "MIT"
   head "https://github.com/MuhametSmaili/hetki.git", branch: "main"
 
